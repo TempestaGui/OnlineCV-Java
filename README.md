@@ -49,7 +49,7 @@ O projeto foi idealizado com fins didáticos, servindo como base para entender:
 
 1. Clone este repositório:  
    ```bash
-   git clone https://github.com/seu-usuario/sistema-curriculo-java.git
+   git clone https://github.com/TempestaGui/OnlineCV-Java
    ````
 
 2. Abra o projeto na sua IDE favorita.  
