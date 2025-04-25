@@ -66,8 +66,7 @@ Exportar currículo em PDF
 Upload de foto e redes sociais  
 
 Login persistente  
-
-Internacionalização (i18n)  
+  
 ---
 ## 🤝 Contribuindo
 Contribuições são super bem-vindas! Fique à vontade para abrir uma issue, enviar um pull request ou deixar uma sugestão.  
