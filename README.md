@@ -68,10 +68,11 @@ Upload de foto e redes sociais
 Login persistente  
   
 ---
-## 🤝 Contribuindo
+## 🤝 Contribuindo.  
 Contribuições são super bem-vindas! Fique à vontade para abrir uma issue, enviar um pull request ou deixar uma sugestão.  
 ---
 ## 🧑‍💻 Autor
-Desenvolvido com 💻 por Guilherme Tempesta  
-🔗 LinkedIn: Guilherme Tempesta  
+
+Desenvolvido 💻 por **Guilherme Tempesta**  
+🔗 [LinkedIn: Guilherme Tempesta](https://www.linkedin.com/in/guilherme-tempesta-82b235286/)
 
