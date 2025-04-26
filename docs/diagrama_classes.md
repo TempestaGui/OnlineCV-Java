@@ -35,12 +35,12 @@ classDiagram
         +salvar() void
     }
 
-    class HashUtill {
+    class HashUtil {
         +hash(String texto) String
     }
 
     Usuario --> Curriculo
     Sistema --> UsuarioRepository
     UsuarioRepository --> Usuario
-    Usuario --> HashItti
+    Usuario --> HashUtil
 ```
