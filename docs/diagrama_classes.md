@@ -35,7 +35,7 @@ classDiagram
         +salvar() void
     }
 
-    class HashItti {
+    class HashUtill {
         +hash(String texto) String
     }
 
