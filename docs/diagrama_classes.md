@@ -1,36 +1,48 @@
 ```mermaid
+classDiagram
+    direction TB
+    
     class Usuario {
-        - String nome
-        - String email
-        - String senhaHash
-        - Curriculo curriculo
-        + autenticar()
+        <<Entity>>
+        -String nome
+        -String email
+        -String senhaHash
+        -Curriculo curriculo
+        +autenticar() Boolean
     }
     
     class Curriculo {
-        - List<String> formacoes
-        - List<String> experiencias
-        - List<String> habilidades
-        + adicionarFormacao()
-        + adicionarExperiencia()
-        + adicionarHabilidade()
+        <<Value Object>>
+        -List~String~ formacoes
+        -List~String~ experiencias
+        -List~String~ habilidades
+        +adicionarFormacao(String formacao)
+        +adicionarExperiencia(String experiencia)
+        +adicionarHabilidade(String habilidade)
     }
     
     class UsuarioRepository {
-        - List<Usuario> usuarios
-        + salvar()
-        + carregar()
-        + autenticar()
+        <<Repository>>
+        -List~Usuario~ usuarios
+        +salvar(Usuario usuario) void
+        +carregar() List~Usuario~
+        +buscarPorEmail(String email) Usuario
     }
     
     class Sistema {
-        + iniciar()
-        + menuPrincipal()
+        <<Controller>>
+        -UsuarioRepository repository
+        +iniciar() void
+        +menuPrincipal() void
     }
 
     class HashUtil {
-        + gerarHash()
+        <<Utility>>
+        +gerarHash(String senha) String$
     }
 
-    Usuario --> Curriculo
-    UsuarioRepository --> Usuario
+    Usuario "1" *-- "1" Curriculo : contém
+    UsuarioRepository ||.. Usuario : gerencia
+    Sistema --> UsuarioRepository : usa
+    Usuario --> HashUtil : utiliza
+```
