@@ -41,8 +41,4 @@ classDiagram
         +gerarHash(String senha) String$
     }
 
-    Usuario "1" *-- "1" Curriculo : contém
-    UsuarioRepository ||.. Usuario : gerencia
-    Sistema --> UsuarioRepository : usa
-    Usuario --> HashUtil : utiliza
 ```
