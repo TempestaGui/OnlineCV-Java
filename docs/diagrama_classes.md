@@ -1,48 +1,46 @@
 ```mermaid
 classDiagram
-    direction TB
-    
-    class Usuario {
-        <<Entity>>
-        -String nome
-        -String email
-        -String senhaHash
-        -Curriculo curriculo
-        +autenticar() Boolean
-    }
-    
     class Curriculo {
-        <<Value Object>>
         -List~String~ formacoes
         -List~String~ experiencias
-        -List~String~ habilidades
-        +adicionarFormacao(String formacao)
-        +adicionarExperiencia(String experiencia)
-        +adicionarHabilidade(String habilidade)
+        -String hibididades
+        +adicionarFormacao(String formacao) void
+        +adicionarExperiencia(String experiencia) void
+        +adicionarHabilidade(String habilidade) void
+        +exibir() void
+        +serializar() String
+        +desserializar(String data) Curriculo
     }
-    
-    class UsuarioRepository {
-        <<Repository>>
-        -List~Usuario~ usuarios
-        +salvar(Usuario usuario) void
-        +carregar() List~Usuario~
-        +buscarPorEmail(String email) Usuario
+
+    class Usuario {
+        -String nome
+        -String email
+        -String semalHash
+        +Usuario(String nome, String email, String senha)
+        +getCurriculo() Curriculo
     }
-    
+
     class Sistema {
-        <<Controller>>
-        -UsuarioRepository repository
         +iniciar() void
-        +menuPrincipal() void
+        +cadastrar() void
+        +login() void
+        +menuUsualo(Usuario usuario) void
     }
 
-    class HashUtil {
-        <<Utility>>
-        +gerarHash(String senha) String
+    class UsuarioRepository {
+        -List~Usuario~ usuarios
+        +adicionar(Usuario usuario) void
+        +autenticar(String email, String senha) Usuario
+        +carregar() void
+        +salvar() void
     }
 
-    Usuario "1" *-- "1" Curriculo
-    UsuarioRepository o-- Usuario
+    class HashItti {
+        +hash(String texto) String
+    }
+
+    Usuario --> Curriculo
     Sistema --> UsuarioRepository
-    Usuario --> HashUtil
+    UsuarioRepository --> Usuario
+    Usuario --> HashItti
 ```
