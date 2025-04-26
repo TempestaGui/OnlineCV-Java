@@ -1,36 +1,46 @@
 ```mermaid
-    class Usuario {
-        - String nome
-        - String email
-        - String senhaHash
-        - Curriculo curriculo
-        + autenticar()
-    }
-    
+classDiagram
     class Curriculo {
-        - List<String> formacoes
-        - List<String> experiencias
-        - List<String> habilidades
-        + adicionarFormacao()
-        + adicionarExperiencia()
-        + adicionarHabilidade()
+        -List~String~ formacoes
+        -List~String~ experiencias
+        -String hibididades
+        +adicionarFormacao(String formacao) void
+        +adicionarExperiencia(String experiencia) void
+        +adicionarHabilidade(String habilidade) void
+        +exibir() void
+        +serializar() String
+        +desserializar(String data) Curriculo
     }
-    
-    class UsuarioRepository {
-        - List<Usuario> usuarios
-        + salvar()
-        + carregar()
-        + autenticar()
+
+    class Usuario {
+        -String nome
+        -String email
+        -String semalHash
+        +Usuario(String nome, String email, String senha)
+        +getCurriculo() Curriculo
     }
-    
+
     class Sistema {
-        + iniciar()
-        + menuPrincipal()
+        +iniciar() void
+        +cadastrar() void
+        +login() void
+        +menuUsualo(Usuario usuario) void
+    }
+
+    class UsuarioRepository {
+        -List~Usuario~ usuarios
+        +adicionar(Usuario usuario) void
+        +autenticar(String email, String senha) Usuario
+        +carregar() void
+        +salvar() void
     }
 
     class HashUtil {
-        + gerarHash()
+        +hash(String texto) String
     }
 
     Usuario --> Curriculo
+    Sistema --> UsuarioRepository
     UsuarioRepository --> Usuario
+    Usuario --> HashUtil
+```
