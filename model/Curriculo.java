@@ -2,6 +2,7 @@ package projetos.OnlineCV.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Curriculo {
 
@@ -41,37 +42,35 @@ public class Curriculo {
 //transformar o objeto curriculo em uma string formatada para armazenamento em arquivo ou banco de dados
 
     public String serializar(){
-        return  String.join(",", formacoes) + "|" +
-                String.join(",", experiencias) + "|" +
-                String.join(",", habilidades);
+        return  String.join(";", formacoes) + "|" +
+                String.join(";", experiencias) + "|" +
+                String.join(";", habilidades);
     }
 //converte a string serializada de volta em um objeto curriculo
 
     public static Curriculo desserializar(String data){
+        if(data == null || data.trim().isEmpty()){
+            throw new IllegalArgumentException("[ERROR]-> dados de serializaçao nao podem ser nulos ou vazios");
+        }
+        
         String[] fields = data.split("\\|");
         Curriculo c = new Curriculo();
 
-        if(fields.length>0 && !fields[0].isEmpty()){
-            for(String f: fields[0].split(",")){
-                if (!f.isEmpty()){
-                    c.adicionarFormacao(f.trim());
-                }
-            }
-        }
-        if (fields.length> 1 && !fields[1].isEmpty()){
-            for (String e: fields[1].split(",")){
-                if (!e.isEmpty()){
-                    c.adicionarExperiencia(e.trim());
-                }
-            }
-        }
-        if(fields.length>2 && !fields[2].isEmpty()){
-            for (String h: fields[2].split(",")){
-                if(!h.isEmpty()){
-                    c.adicionarHabilidades(h.trim());
-                }
-            }
-        }
+//c:: metodo lambda
+        processarCampo(fields[0], c::adicionarFormacao);
+        processarCampo(fields[1], c::adicionarExperiencia);
+        processarCampo(fields[2], c::adicionarHabilidades);
+
         return c;
+    }
+
+    private static void processarCampo(String campo, Consumer<String> adcionador){
+        if(!campo.isEmpty()){
+            for (String item: campo.split(";")){
+                if (!item.isEmpty()){
+                    adcionador.accept(item.trim());
+                }
+            }
+        }
     }
 }

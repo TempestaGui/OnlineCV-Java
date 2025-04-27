@@ -5,7 +5,7 @@ import projetos.OnlineCV.model.Curriculo;
 public class Program {
     public static void main(String[] args) {
         Curriculo c = new Curriculo();
-        c.adicionarExperiencia("desenvolvimento de programas");
+        c.adicionarExperiencia("desenvolvimento de programas; criaçao de sites");
         c.adicionarFormacao("ciencias da computaçao pelo centro universitario de brasilia");
         c.adicionarHabilidades("java");
         c.exibir();
