@@ -5,17 +5,26 @@ import java.util.List;
 
 public class Curriculo {
 
-    private List<String> formacoes = new ArrayList<>();
-    private List<String> experiencias = new ArrayList<>();
-    private List<String> habilidades = new ArrayList<>();
+    private final List<String> formacoes = new ArrayList<>();
+    private final List<String> experiencias = new ArrayList<>();
+    private final List<String> habilidades = new ArrayList<>();
 
     public void adicionarFormacao(String f){
+        if(f == null || f.trim().isEmpty()){
+            throw new IllegalArgumentException("[ERROR] -> formaçao nao pode ser nula ou vazia");
+        }
         formacoes.add(f);
     }
     public void adicionarExperiencia(String e){
+        if(e == null || e.trim().isEmpty()){
+         throw new IllegalArgumentException("[ERROR] -> experiencia não pode esta vazia");
+        }
         experiencias.add(e);
     }
     public void adicionarHabilidades(String h){
+        if(h == null|| h.trim().isEmpty()){
+            throw new IllegalArgumentException("[ERROR] -> habilidade nao pode esta vazia");
+        }
         habilidades.add(h);
     }
 
