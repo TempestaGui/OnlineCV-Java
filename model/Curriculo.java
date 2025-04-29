@@ -52,7 +52,7 @@ public class Curriculo {
         if(data == null || data.trim().isEmpty()){
             throw new IllegalArgumentException("[ERROR]-> dados de serializaçao nao podem ser nulos ou vazios");
         }
-        
+
         String[] fields = data.split("\\|");
         Curriculo c = new Curriculo();
 
@@ -60,7 +60,6 @@ public class Curriculo {
         processarCampo(fields[0], c::adicionarFormacao);
         processarCampo(fields[1], c::adicionarExperiencia);
         processarCampo(fields[2], c::adicionarHabilidades);
-
         return c;
     }
 
