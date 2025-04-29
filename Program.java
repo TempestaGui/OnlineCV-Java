@@ -25,8 +25,22 @@ public class Program {
 
         String senha = "minhaSenhaSecreta123";
         String hash = HashUtil.hash(senha);
-
         System.out.println("Senha original: "+senha);
-        System.out.println("Hash SHA-246: "+hash);
+        System.out.println("Hash simples: "+hash);
+
+       //hash com salt aleatorio
+
+        String[] hashComSalt = HashUtil.hashWithRandomSalt(senha);
+        System.out.println("\nhash com salt");
+        System.out.println("salt: "+hashComSalt[0]);
+        System.out.println("hash: "+hashComSalt[1]);
+
+        //verificaçao
+        boolean valido = HashUtil.verify(senha,hashComSalt[0],hashComSalt[1]);
+        System.out.println("\nVerificaçao: "+ (valido ? "Sucesso": "Falha"));
+
+        //hash com algotitmo especifico
+        String Hash512 = HashUtil.hash(senha, "SHA-512");
+        System.out.println("\nhash SHA-512: "+Hash512);
     }
 }
