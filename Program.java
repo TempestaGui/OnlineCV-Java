@@ -1,6 +1,7 @@
 package projetos.OnlineCV;
 
 import projetos.OnlineCV.model.Curriculo;
+import projetos.OnlineCV.util.HashUtil;
 
 public class Program {
     public static void main(String[] args) {
@@ -20,5 +21,12 @@ public class Program {
         Curriculo novoCv = Curriculo.desserializar(serializado);
         novoCv.exibir();
 
+        //testando a class HashUtil
+
+        String senha = "minhaSenhaSecreta123";
+        String hash = HashUtil.hash(senha);
+
+        System.out.println("Senha original: "+senha);
+        System.out.println("Hash SHA-246: "+hash);
     }
 }
