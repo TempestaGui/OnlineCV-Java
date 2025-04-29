@@ -1,8 +1,10 @@
 package projetos.OnlineCV.util;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 
 public class HashUtil {
-        public static String hash(String input) {
+
+    public static String hash(String input) {
             try {
                 //obter uma instancia do algoritmo SHA-246
                 MessageDigest md = MessageDigest.getInstance("SHA-256");
