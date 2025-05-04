@@ -66,18 +66,18 @@ public class UsuarioRepository {
     public void salvar() throws FileNotFoundException {
         try(PrintWriter pw = new PrintWriter(Files.newBufferedWriter(arquivoPath))){
             for(Usuario u: usuarios){
+                String SerializandoCurriculo = u.getCurriculo() != null ? u.getCurriculo().serializar() : "";
                 String Line = String.join("|",
                  u.getNome(),
                         u.getEmail(),
                         u.getSenhaHash(),
-                        u.getCurriculo().serializar());
+                        SerializandoCurriculo);
                 pw.println(Line);
             }
         }catch (IOException e){
             throw new DataAccessException("Falha ao salvar dados", e);
         }
     }
-
     public static class DataAccessException extends RuntimeException{
         public DataAccessException(String message, Throwable cause){
             super(message, cause);

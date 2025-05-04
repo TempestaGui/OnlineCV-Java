@@ -59,6 +59,4 @@ public class Usuario {
 
         return HashUtil.verify(senha, this.senhaSalt, this.senhaHash);
     }
-
-
 }

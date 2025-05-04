@@ -82,12 +82,10 @@ public class Program {
 
         //inicializaçao
         UsuarioRepository ur = new UsuarioRepository("C:\\IdeaProjects\\primeiro projeto\\src\\projetos\\OnlineCV\\docs\\usuarios.txt");
-
         //adcionar usuario
         ur.adcionar(us1);
 
         //autentificar
-        Usuario autenticado = ur.autentificar("guilherme@gmail.com","Senha123");
 
         //salvar
         ur.salvar();
