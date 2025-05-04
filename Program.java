@@ -1,11 +1,14 @@
 package projetos.OnlineCV;
 
+import projetos.OnlineCV.data.UsuarioRepository;
 import projetos.OnlineCV.model.Curriculo;
 import projetos.OnlineCV.model.Usuario;
 import projetos.OnlineCV.util.HashUtil;
 
+import java.io.FileNotFoundException;
+
 public class Program {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Curriculo c = new Curriculo();
         c.adicionarExperiencia("desenvolvimento de programas; criaçao de sites");
         c.adicionarFormacao("ciencias da computaçao pelo centro universitario de brasilia");
@@ -74,5 +77,19 @@ public class Program {
         }catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
+
+        //testando usuarioRepository
+
+        //inicializaçao
+        UsuarioRepository ur = new UsuarioRepository("C:\\IdeaProjects\\primeiro projeto\\src\\projetos\\OnlineCV\\docs\\usuarios.txt");
+
+        //adcionar usuario
+        ur.adcionar(us1);
+
+        //autentificar
+        Usuario autenticado = ur.autentificar("guilherme@gmail.com","Senha123");
+
+        //salvar
+        ur.salvar();
     }
 }
