@@ -35,7 +35,7 @@ public class Usuario {
     public String getSenhaHash() {
         return senhaHash;
     }
-    public String getSenhaSalt(){
+    public String getSenhaSalt(String senha){
         return senhaSalt;
     }
     public Curriculo getCurriculo() {
@@ -56,6 +56,7 @@ public class Usuario {
     }
 
     public boolean autentificar(String senha){
+
         return HashUtil.verify(senha, this.senhaSalt, this.senhaHash);
     }
 
