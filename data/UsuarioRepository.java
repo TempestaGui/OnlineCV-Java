@@ -37,6 +37,7 @@ public class UsuarioRepository {
 
 
     public Usuario autentificar(String email, String Senha){
+        carregar();
         Usuario us = buscarEmail(email);
         if(us != null && us.autentificar(Senha)){return us;}
             return null;

@@ -1,2 +1,3 @@
-gui|gui@gmail.com|b77868e4f40ed7bdc06b79a9ac4aec79b5a953f8d836081f272411862a849b94|ciencias da computaçao pelo centro universitario de brasilia|desenvolvimento de programas;criaçao de sites|java
-
+gui|gui@gmail.com|b80b2f8cc88ab5361f76feabaf213a951fcd9381341bef8418553b1d6c8b3693|ciencias da computaçao pelo centro universitario de brasilia|desenvolvimento de programas;criaçao de sites|java
+gui|gui@gmail.com|4b4b434b52c10db19b4614b4a1497f7aac537885ca1b25a3757f3e4c58924f1e|ciencias da computaçao pelo centro universitario de brasilia|desenvolvimento de programas;criaçao de sites|java
+guilherme tempesta|gui@gmail|703774204eac92e5aacd236e50eea17b0f8fb1c6f79288444f78e0dab3268cb4|ciencia da computaçao iesb|estagio desenvolvimento java|java

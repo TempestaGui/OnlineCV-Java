@@ -8,83 +8,104 @@ import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Sistema {
-    private UsuarioRepository usuarioRepository = new UsuarioRepository("C:\\IdeaProjects\\primeiro projeto\\src\\projetos\\OnlineCV\\docs\\usuarios.txt");
-    Scanner sc = new Scanner(System.in);
+    private final UsuarioRepository usuarioRepository;
+    private final Scanner sc;
+    private Usuario usuarioLogado;
+
+    public Sistema(){
+        this.usuarioRepository = new UsuarioRepository("C:\\IdeaProjects\\primeiro projeto\\src\\projetos\\OnlineCV\\docs\\usuarios.txt");
+        this.sc = new Scanner(System.in);
+    }
+
 
     public void iniciar() throws FileNotFoundException{
-        usuarioRepository.carregar();
-        System.out.println("==== Online CV ====");
+        try {
+            usuarioRepository.carregar();
+            System.out.println("==== Online CV ====");
 
-        while(true){
-            System.out.println("\n1. cadastrar\n2. login\n3. sair");
-            int opc = sc.nextInt();
-            switch (opc){
-                case 1 -> cadastrar();
-                case 2 -> login();
-                case 3 -> {
-                    usuarioRepository.salvar();
-                    System.exit(0);
+            while (true) {
+                exibirMenuPrincipal();
+                int opc = lerinteiro("");
+                switch (opc) {
+                    case 1 -> cadastrar();
+                    case 2 -> login();
+                    case 3 -> {
+                        usuarioRepository.salvar();
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Opçao invalida");
                 }
-                default -> System.out.println("Opçao invalida");
             }
+        }catch (FileNotFoundException e){
+            System.err.print("Erro ao carregar dados: "+e.getMessage());
         }
+    }
+
+    private void exibirMenuPrincipal(){
+        System.out.println("==== Menu principal ====");
+        System.out.println("1. cadastrar");
+        System.out.println("2. login");
+        System.out.println("3. sair");
+        System.out.print("escolha uma opçao: ");
     }
 
     public void cadastrar(){
-        System.out.print("Nome: ");
-        String nomeUsuario = sc.nextLine();
-        System.out.print("Email: ");
-        String emailusuario = sc.nextLine();
-        System.out.print("Senha: ");
-        String senhaUsuario = sc.nextLine();
-
-        Usuario u = new Usuario(nomeUsuario,emailusuario,senhaUsuario);
-        usuarioRepository.adcionar(u);
-        System.out.println("Cadastro realizado com sucesso");
-    }
-
-    public void login() throws FileNotFoundException {
-        System.out.println("email: ");
-        String emaillogin = sc.nextLine();
-        System.out.println("Senha: ");
-        String senhaLogin = sc.nextLine();
-
-        Usuario u = usuarioRepository.autentificar(emaillogin,senhaLogin);
-        if (u != null){
-            menuUsuario(u);
-        }else {
-            System.out.println("Login falhou");
+        System.out.println("==== Novo cadastro ====");
+        String nomeUsuario = lerString("nome: ");
+        String emailusuario = lerString("email: ");
+        String senhaUsuario = lerString("senha: ");
+        try{
+            Usuario u = new Usuario(nomeUsuario,emailusuario,senhaUsuario);
+            usuarioRepository.adcionar(u);
+            System.out.println("Cadastro realizado com sucesso");
+        }catch (Exception e){
+            System.err.print("Erro ao cadastrar"+e.getMessage());
         }
     }
 
-    private void menuUsuario(Usuario usuario) throws FileNotFoundException {
+    public void login() throws FileNotFoundException {
+        System.out.println("==== Login =====");
+        String emaillogin = lerString("email: ");
+        String senhaLogin = lerString("senha: ");
+
+        try {
+            usuarioLogado = usuarioRepository.autentificar(emaillogin, senhaLogin);
+            if (usuarioLogado != null) {
+                System.out.println("Login bem sucedido! bem vindo, " + usuarioLogado.getNome());
+                menuUsuario();
+            } else {
+                System.out.println("Login falhou");
+            }
+        }catch (Exception e){
+            System.err.print("Erro ao efetuar login"+e.getMessage());
+        }
+    }
+
+    private void menuUsuario() throws FileNotFoundException {
         while (true){
-            System.out.println("ola, "+ usuario.getNome());
-            System.out.println("1. adcionar formaçao");
-            System.out.println("2. adcionar experiencia");
-            System.out.println("3. adcionar habilidade");
-            System.out.println("4. ver curriculo");
-            System.out.println("5. sair");
-            int opc = sc.nextInt();
+            exibirMenuUsuario();
+            int opc = lerinteiro("");
 
             switch (opc){
                 case 1 ->{
-                    System.out.println("Formaçao: ");
-                    usuario.getCurriculo().adicionarFormacao(sc.nextLine());
+                    String formacao = lerString("formaçao: ");
+                    usuarioLogado.getCurriculo().adicionarFormacao(formacao);
                 }
                 case 2 -> {
-                    System.out.println("experiencia: ");
-                    usuario.getCurriculo().adicionarExperiencia(sc.nextLine());
+                    String experiencia = lerString("experiencia: ");
+                    usuarioLogado.getCurriculo().adicionarExperiencia(experiencia);
                 }
                 case 3 -> {
-                    System.out.println("habilidade: ");
-                    usuario.getCurriculo().adicionarHabilidades(sc.nextLine());
+                    String habilidade = lerString("habilidade");
+                    usuarioLogado.getCurriculo().adicionarHabilidades(habilidade);
                 }
                 case 4 -> {
-                    usuario.getCurriculo().exibir();
+                    System.out.println("==== Seu curriculo ====");
+                    usuarioLogado.getCurriculo().exibir();
                 }
                 case 5 -> {
                     usuarioRepository.salvar();
+                    System.out.println("Alteraçoes salvas! ate logo.");
                     return;
                 }
                 default -> System.out.println("opçao invalida");
@@ -92,5 +113,34 @@ public class Sistema {
         }
     }
 
+    private void exibirMenuUsuario(){
+        System.out.println("==== menu usuario ====");
+        System.out.println("ola, "+ usuarioLogado.getNome());
+        System.out.println("1. adcionar formaçao");
+        System.out.println("2. adcionar experiencia");
+        System.out.println("3. adcionar habilidade");
+        System.out.println("4. ver curriculo");
+        System.out.println("5. sair");
+        System.out.println("escolha a opçao");
+    }
+
+    private String lerString(String menssagem){
+        System.out.println(menssagem);
+        return sc.nextLine().trim();
+    }
+
+    private int lerinteiro(String menssagem){
+        while(true){
+            try {
+                if(!menssagem.isEmpty()){
+                    System.out.println(menssagem);
+                }
+                int valor = Integer.parseInt(sc.nextLine());
+                return valor;
+            }catch (NumberFormatException e){
+                System.out.println("valor inalido! digite novamente: ");
+            }
+        }
+    }
 
 }
