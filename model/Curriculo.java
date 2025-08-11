@@ -1,75 +1,76 @@
 package projetos.OnlineCV.model;
 
+import projetos.OnlineCV.db.DB;
+
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class Curriculo {
-
-    private final List<String> formacoes = new ArrayList<>();
-    private final List<String> experiencias = new ArrayList<>();
-    private final List<String> habilidades = new ArrayList<>();
-
-    public void adicionarFormacao(String f){
-        if(f == null || f.trim().isEmpty()){
-            throw new IllegalArgumentException("[ERROR] -> formaçao nao pode ser nula ou vazia");
-        }
-        formacoes.add(f);
-    }
-    public void adicionarExperiencia(String e){
-        if(e == null || e.trim().isEmpty()){
-         throw new IllegalArgumentException("[ERROR] -> experiencia não pode esta vazia");
-        }
-        experiencias.add(e);
-    }
-    public void adicionarHabilidades(String h){
-        if(h == null|| h.trim().isEmpty()){
-            throw new IllegalArgumentException("[ERROR] -> habilidade nao pode esta vazia");
-        }
-        habilidades.add(h);
-    }
-
-    public void exibir(){
+    public void exibir(Connection connection, PreparedStatement st) throws SQLException {
+        Scanner sc = new Scanner(System.in);
         System.out.println("====Curriculo====");
         System.out.println("Formaçoes: ");
-        formacoes.forEach(f -> System.out.println("- "+f));
+        String formacao = sc.nextLine();
+        st.setString(1, formacao);
         System.out.println("Experiencias: ");
-        experiencias.forEach(e -> System.out.println("- "+e));
+        String experiencia = sc.nextLine();
+        st.setString(2, experiencia);
         System.out.println("habilidades: ");
-        habilidades.forEach(h -> System.out.println("- "+h));
+        String habilidade = sc.nextLine();
+        st.setString(3, habilidade);
         System.out.println("=================");
     }
-//transformar o objeto curriculo em uma string formatada para armazenamento em arquivo ou banco de dados
 
-    public String serializar(){
-        return  String.join(";", formacoes) + "|" +
-                String.join(";", experiencias) + "|" +
-                String.join(";", habilidades);
-    }
-//converte a string serializada de volta em um objeto curriculo
+    public void InserirDados() throws SQLException, IOException {
+        Scanner scanner = new Scanner(System.in);
+        Connection conexao = null;
+        PreparedStatement st = null;
 
-    public static Curriculo desserializar(String data){
-        if(data == null || data.trim().isEmpty()){
-            throw new IllegalArgumentException("[ERROR]-> dados de serializaçao nao podem ser nulos ou vazios");
-        }
-
-        String[] fields = data.split("\\|");
-        Curriculo c = new Curriculo();
-
-//c:: metodo lambda
-        processarCampo(fields[0], c::adicionarFormacao);
-        processarCampo(fields[1], c::adicionarExperiencia);
-        processarCampo(fields[2], c::adicionarHabilidades);
-        return c;
-    }
-
-    private static void processarCampo(String campo, Consumer<String> adcionador){
-        if(!campo.isEmpty()){
-            for (String item: campo.split(";")){
-                if (!item.isEmpty()){
-                    adcionador.accept(item.trim());
+        try{
+            conexao = DB.getConnection();
+            st = conexao.prepareStatement(
+                    "INSERT INTO curriculo"+
+                            "(formacoes, experiencias, habilidades)"+
+                            "values "+
+                            "(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            this.exibir(conexao, st);
+            int rowAffected = st.executeUpdate();
+            if(rowAffected>0){
+                ResultSet rs = st.getGeneratedKeys();
+                while (rs.next()){
+                    int id = rs.getInt(1);
+                    System.out.println("done, Id = " + id);
                 }
+            }else{
+                System.out.println("no rows affected");
             }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void carregarDados() throws SQLException {
+        Connection connection = null; //conectar
+        Statement st = null;//bucar
+        ResultSet rs = null;
+        try{
+            connection = DB.getConnection();
+            st = connection.createStatement();
+            rs = st.executeQuery("select * from curriculo");
+            while(rs.next()){
+                System.out.println(rs.getInt("id_curriculo")+", "+
+                        rs.getString("formacoes")+", "+
+                        rs.getString("experiencias")+", "+
+                        rs.getString("habilidades")+", ");
+            }
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DB.closeResultSet(rs);
+            DB.closeStatement(st);
         }
     }
 }
