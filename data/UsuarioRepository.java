@@ -2,7 +2,7 @@ package projetos.OnlineCV.data;
 
 import projetos.OnlineCV.db.DB;
 import projetos.OnlineCV.model.Curriculo;
-import projetos.OnlineCV.model.Usuario;
+import projetos.OnlineCV.util.HashUtil;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -66,6 +66,7 @@ public class UsuarioRepository {
         }
     }
     private void menu(PreparedStatement st, Connection conexao) throws SQLException, ParseException {
+
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("nome: ");
@@ -76,7 +77,7 @@ public class UsuarioRepository {
         st.setString(2,email);
         System.out.println("senha: ");
         String senha = sc.nextLine();
-        st.setString(3,senha);
+        st.setString(3,HashUtil.hashWithRandomSalt(senha));
         System.out.println("data de nascimento: ");
         String data_cadastro = sc.next();
         st.setDate(4, new java.sql.Date(sdf.parse(data_cadastro).getTime()));

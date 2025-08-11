@@ -36,10 +36,10 @@ public class HashUtil {
 
 
     //gerar hash com salt aleatorio
-    public static String[] hashWithRandomSalt(String input){
+    public static String hashWithRandomSalt(String input){
         String salt = generateSalt();
         String hashed = hash(input + salt, DEFAULT_ALGORITHM);
-        return new String[]{salt, hashed};
+        return hashed;
     }
 
     //gerar um hash com salt especifico

@@ -3,7 +3,7 @@ package projetos.OnlineCV.controller;
 
 import projetos.OnlineCV.data.UsuarioRepository;
 import projetos.OnlineCV.model.Curriculo;
-import projetos.OnlineCV.model.Usuario;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

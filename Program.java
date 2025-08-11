@@ -2,7 +2,6 @@ package projetos.OnlineCV;
 
 import projetos.OnlineCV.controller.Sistema;
 import projetos.OnlineCV.model.Curriculo;
-import projetos.OnlineCV.model.Usuario;
 import projetos.OnlineCV.util.HashUtil;
 
 import java.io.FileNotFoundException;
